@@ -19,6 +19,12 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "pasw")
+    private String password;
+
+    @OneToMany(mappedBy = "owner", orphanRemoval = true)
+    private List<Car> cars = new ArrayList<>();
+
     public String getEmail() {
         return email;
     }
@@ -35,11 +41,6 @@ public class User {
         this.password = password;
     }
 
-    @Column(name = "pasw")
-    private String password;
-
-    @OneToMany(mappedBy = "owner", orphanRemoval = true)
-    private List<Car> cars = new ArrayList<>();
 
     public List<Car> getCars() {
         return cars;

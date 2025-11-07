@@ -13,9 +13,13 @@ public class Car {
     @Column(name = "license_plate")
     private String licensePlate;
 
+    @Column(name = "parking_spot")
+    private String parkingSpot;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
+
 
     public String getParkingSpot() {
         return parkingSpot;
@@ -25,8 +29,6 @@ public class Car {
         this.parkingSpot = parkingSpot;
     }
 
-    @Column(name = "parking_spot")
-    private String parkingSpot;
 
     public User getOwner() {
         return owner;
