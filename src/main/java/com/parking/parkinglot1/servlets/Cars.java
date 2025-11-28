@@ -12,8 +12,10 @@ import java.util.List;
 
 @WebServlet(name = "Cars", value = "/Cars")
 public class Cars extends HttpServlet {
+
     @Inject
     CarsBean carsBean;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<CarDto> cars =carsBean.findAllCars();
@@ -25,5 +27,6 @@ public class Cars extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse
             response) throws ServletException, IOException {
+
     }
 }
