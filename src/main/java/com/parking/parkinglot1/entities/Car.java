@@ -1,6 +1,7 @@
 package com.parking.parkinglot1.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "car")
@@ -20,7 +21,8 @@ public class Car {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
-
+    @Size(min = 3, max = 100)
+    @Column(unique = true, nullable = false, length = 100)
     public String getParkingSpot() {
         return parkingSpot;
     }
@@ -38,6 +40,8 @@ public class Car {
         this.owner = owner;
     }
 
+    @Size(min = 3, max = 100)
+    @Column(unique = true, nullable = false, length = 100)
     public String getLicensePlate() {
         return licensePlate;
     }

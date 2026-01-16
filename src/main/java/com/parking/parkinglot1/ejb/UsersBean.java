@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,7 +27,29 @@ public class UsersBean {
             TypedQuery<User> typedQuery = entityManager.createQuery("SELECT u FROM User u", User.class);
             List<User> users = typedQuery.getResultList();
             return copyUsersToDto(users);
+        } catch (Exception ex) {
+            throw new EJBException(ex);
+        }
+    }
 
+
+    public List<String> findInvoicingNames() {
+        LOG.info("findInvoicingNames");
+        try {
+            return entityManager.createQuery("SELECT u.username FROM User u", String.class)
+                    .getResultList();
+        } catch (Exception ex) {
+            throw new EJBException(ex);
+        }
+    }
+
+
+    public Integer countCars() {
+        LOG.info("countCars");
+        try {
+            Long count = entityManager.createQuery("SELECT COUNT(c) FROM Car c", Long.class)
+                    .getSingleResult();
+            return count.intValue();
         } catch (Exception ex) {
             throw new EJBException(ex);
         }
@@ -34,7 +57,6 @@ public class UsersBean {
 
     private List<UserDto> copyUsersToDto(List<User> users) {
         List<UserDto> usersDto = new ArrayList<>();
-
         for (User user : users) {
             usersDto.add(new UserDto(
                     user.getId(),
@@ -42,7 +64,6 @@ public class UsersBean {
                     user.getEmail()
             ));
         }
-
         return usersDto;
     }
 }

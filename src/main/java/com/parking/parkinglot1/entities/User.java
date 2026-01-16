@@ -1,6 +1,8 @@
 package com.parking.parkinglot1.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size; // Added for @Size
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username")
     private String username;
 
-    @Column(name = "email")
     private String email;
 
     @Column(name = "pasw")
@@ -25,6 +25,8 @@ public class User {
     @OneToMany(mappedBy = "owner", orphanRemoval = true)
     private List<Car> cars = new ArrayList<>();
 
+    @Email
+    @Column(unique = true, nullable = false, length = 100)
     public String getEmail() {
         return email;
     }
@@ -41,7 +43,6 @@ public class User {
         this.password = password;
     }
 
-
     public List<Car> getCars() {
         return cars;
     }
@@ -50,6 +51,10 @@ public class User {
         this.cars = cars;
     }
 
+    @Basic
+    // TASK: Apply requirements from images 2 & 3
+    @Size(min = 3, max = 100) // Image 2 requirement
+    @Column(unique = true, nullable = false, length = 100) // Image 3 requirement
     public String getUsername() {
         return username;
     }
@@ -65,5 +70,4 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

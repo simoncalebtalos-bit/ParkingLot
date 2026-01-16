@@ -23,6 +23,14 @@ public class Users extends HttpServlet {
         List<UserDto> users = usersBean.findAllUsers();
         request.setAttribute("users", users);
 
+        // TASK: Do not set the attribute with the names if the user doesn't have the usergroup
+        if (request.isUserInRole("INVOICING")) {
+            // Assuming you have a method in usersBean to get these names
+            // If not, you can replace this with the appropriate logic
+            List<String> invoicingNames = usersBean.findInvoicingNames();
+            request.setAttribute("invoicingNames", invoicingNames);
+        }
+
         request.getRequestDispatcher("/WEB-INF/pages/users.jsp")
                 .forward(request, response);
     }
@@ -30,6 +38,15 @@ public class Users extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // momentan nu avem POST
+
+        // TASK: Protect the doPost() method of the Users servlet
+        if (!request.isUserInRole("INVOICING")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "User not authorized for invoicing.");
+            return;
+        }
+
+        // Logic for invoicing (e.g., processing a payment or update) goes here
+
+        response.sendRedirect(request.getContextPath() + "/Users");
     }
 }
